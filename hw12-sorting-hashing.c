@@ -262,79 +262,87 @@ int bubbleSort(int *a)
 	printf("----------------------------------------------------------------\n");
 	printArray(a); //정렬된 후의 배열 출력
 
-	return 0;
+	return 0; //0을 리턴함으로서 함수 종료
 }
 
-int shellSort(int *a) //셸 정렬
+/*
+셸 정렬
+
+*/
+int shellSort(int *a)
 {
 	int i, j, k, h, v;
 
 	printf("Shell Sort: \n");
 	printf("----------------------------------------------------------------\n");
 
-	printArray(a);
+	printArray(a); //정렬 전의 배열 출력
 
-	for (h = MAX_ARRAY_SIZE/2; h > 0; h /= 2)
+	for (h = MAX_ARRAY_SIZE/2; h > 0; h /= 2) //h의 값은 MAX_ARRAY_SIZE/2부터 시작하고, 2씩 나누며, h>0일때만 반복문 실행
 	{
-		for (i = 0; i < h; i++)
+		for (i = 0; i < h; i++) //i=0, i가 h보다 작을때, i++만큼 증가하며 반복문 실행
 		{
-			for(j = i + h; j < MAX_ARRAY_SIZE; j += h)
+			for(j = i + h; j < MAX_ARRAY_SIZE; j += h) //j가 i+h값부터 시작하고, 
 			{
-				v = a[j];
-				k = j;
-				while (k > h-1 && a[k-h] > v)
+				v = a[j]; //v의 값을 a[j]값으로 설정
+				k = j; //k의 값을 j로 설정
+				while (k > h-1 && a[k-h] > v) //k값이 h-1보다 크고, a[k-h]값이 v보다 클경우 반복문 실행
 				{
-					a[k] = a[k-h];
-					k -= h;
+					a[k] = a[k-h]; //a[k]값을 a[k-h]값으로 설정
+					k -= h; //k의 값을 k-h값으로 설정
 				}
-				a[k] = v;
+				a[k] = v; //a[k]의 값을 v로 변경
 			}
 		}
 	}
 	printf("----------------------------------------------------------------\n");
-	printArray(a);
+	printArray(a); //정렬된 후의 배열 출력
 
-	return 0;
+	return 0; //0을 리턴함으로서 함수 종료
 }
-
-int quickSort(int *a, int n) //퀵 정렬
+/*
+퀵 정렬
+기준값을 중심으로 왼쪽과 오른쪽 부분집합으로 나누어 정렬하는 방식이다
+피봇값을 설정해 기준으로 잡아 피봇보다 작으면 왼쪽, 피봇보다 크면 오른쪽으로 정렬
+*/
+int quickSort(int *a, int n)
 {
 	int v, t;
 	int i, j;
 
-	if (n > 1)
+	if (n > 1) //n이 1보다 크면 즉 배열의 크기가 1보다 크면
 	{
-		v = a[n-1];
-		i = -1;
-		j = n - 1;
+		v = a[n-1]; //v의 값을 a[n-1]의 값으로 설정 즉 피봇값을 설정
+		i = -1; //i의 값을 -1로 설정
+		j = n - 1; //j의 값을 n-1로 설정
 
-		while(1)
+		while(1) //항상 반복
 		{
-			while(a[++i] < v);
-			while(a[--j] > v);
+			while(a[++i] < v); //a[++i]값이 v보다 작을때까지 i값 증가
+			while(a[--j] > v); //a[--j]값이 v보다 클때 까지 j값 감소
 
-			if (i >= j) break;
-			t = a[i];
-			a[i] = a[j];
-			a[j] = t;
+			if (i >= j) break; //i가 j보다 크거나 같으면 반복문 종료
+			t = a[i]; //t값을 a[i]값으로 설정
+			a[i] = a[j]; //a[i]값을 a[j]값으로 설정
+			a[j] = t; //a[j]값을 t값으로 설정
 		}
-		t = a[i];
-		a[i] = a[n-1];
-		a[n-1] = t;
+		t = a[i]; //t값을 a[i]값으로 설정
+		a[i] = a[n-1]; //a[i]값을 a[n-1]값으로 설정
+		a[n-1] = t; //a[n-1]값을 t값으로 설정
 
-		quickSort(a, i);
-		quickSort(a+i+1, n-i-1);
+		quickSort(a, i); //재귀함수를 불러 함수 인자를 a, i를 갖는다
+		quickSort(a+i+1, n-i-1); //재귀함수를 불러 함수 인자로 a+i+1, n-i-1을 갖는다
 	}
 
 
-	return 0;
+	return 0; //0을 리턴함으로서 함수 종료
 }
 
 int hashCode(int key) {
-   return key % MAX_HASH_TABLE_SIZE;
+   return key % MAX_HASH_TABLE_SIZE; //key와 MAX_HASH_TABLE_SIZE을 나눈 나머지 값을 반환
 }
 
-int hashing(int *a, int **ht)
+int hashing(int *a, int **ht) //해싱
 {
 	int *hashtable = NULL;
 
@@ -347,56 +355,56 @@ int hashing(int *a, int **ht)
 	}
 
 	for(int i = 0; i < MAX_HASH_TABLE_SIZE; i++)
-		hashtable[i] = -1;
+		hashtable[i] = -1; //해싱테이블의 모든 배열을 -1로 초기화한다
 
-	/*
+	
 	for(int i = 0; i < MAX_HASH_TABLE_SIZE; i++)
 		printf("hashtable[%d] = %d\n", i, hashtable[i]);
-	*/
+	
 
 	int key = -1;
 	int hashcode = -1;
 	int index = -1;
 	for (int i = 0; i < MAX_ARRAY_SIZE; i++)
 	{
-		key = a[i];
-		hashcode = hashCode(key);
-		/*
+		key = a[i]; //k값을 a[i]값으로 설정한다
+		hashcode = hashCode(key); //hashcode값을 hashCode(key)함수를 호출하여 값을 설정한다
+		
 		printf("key = %d, hashcode = %d, hashtable[%d]=%d\n", key, hashcode, hashcode, hashtable[hashcode]);
-		*/
-		if (hashtable[hashcode] == -1)
+		
+		if (hashtable[hashcode] == -1) //hashtable[hashcode] 가 -1일 경우
 		{
-			hashtable[hashcode] = key;
-		} else 	{
+			hashtable[hashcode] = key; //hashtable[hashcode]가 비었으므로 key값을 넣는다
+		} else /* 그렇지 않는 경우*/	{
 
-			index = hashcode;
+			index = hashcode; //index값을 hashcode값으로 설정한다
 
-			while(hashtable[index] != -1)
+			while(hashtable[index] != -1) //hashtable[index]가 -1이 아닐때 즉 비어있지 않을때 반복문 실행
 			{
-				index = (++index) % MAX_HASH_TABLE_SIZE;
-				/*
+				index = (++index) % MAX_HASH_TABLE_SIZE; //index값을 1 늘리고 MAX_HASH_TABLE_SIZE와 나눈 나머지로 설정
+				
 				printf("index = %d\n", index);
-				*/
+				
 			}
-			hashtable[index] = key;
+			hashtable[index] = key; //hashtable[index]값을 key값으로 설정한다
 		}
 	}
 
-	return 0;
+	return 0; //0을 리턴함으로서 함수 종료
 }
 
 int search(int *ht, int key)
 {
-	int index = hashCode(key);
+	int index = hashCode(key); //index값을 hashCode(key)함수를 호출해 나온 값으로 설정
 
-	if(ht[index] == key)
-		return index;
+	if(ht[index] == key) //ht[index]가 key인 경우
+		return index; //index를 반환하고 함수 종료
 
-	while(ht[++index] != key)
+	while(ht[++index] != key) //ht[++index]가 key가 아닌경우 반복문 실행
 	{
-		index = index % MAX_HASH_TABLE_SIZE;
+		index = index % MAX_HASH_TABLE_SIZE; //index 값을 MAX_HASH_TABLE_SIZE로 나눈 나머지 값으로 설정
 	}
-	return index;
+	return index; //index를 반환하고 함수 종료
 }
 
 
