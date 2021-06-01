@@ -138,29 +138,34 @@ int initialize(int** a)
 	return 0;
 }
 
-int freeArray(int *a)
+int freeArray(int *a) // 배열 동적할당 해제
 {
 	if(a != NULL)
 		free(a);
 	return 0;
 }
 
-void printArray(int *a)
+void printArray(int *a) //배열 출력
 {
-	if (a == NULL) {
-		printf("nothing to print.\n");
-		return;
+	if (a == NULL) { //배열이 비어있을 경우
+		printf("nothing to print.\n"); //비었다고 출력
+		return; //함수 종료
 	}
-	for(int i = 0; i < MAX_ARRAY_SIZE; i++)
+	for(int i = 0; i < MAX_ARRAY_SIZE; i++) //배열의 위치 출력
 		printf("a[%02d] ", i);
 	printf("\n");
-	for(int i = 0; i < MAX_ARRAY_SIZE; i++)
+	for(int i = 0; i < MAX_ARRAY_SIZE; i++) //배열의 값 출력
 		printf("%5d ", a[i]);
 	printf("\n");
 }
 
+/*
+선택정렬
+배열을 탐색해 가장 작은값을 맨 앞으로 옮기고, 그 다음으로 작은 값을 2번째로 옮기는 식으로
+자리교환을 하는 정렬
+*/
 
-int selectionSort(int *a)
+int selectionSort(int *a) 
 {
 	int min;
 	int minindex;
@@ -169,28 +174,35 @@ int selectionSort(int *a)
 	printf("Selection Sort: \n");
 	printf("----------------------------------------------------------------\n");
 
-	printArray(a);
+	printArray(a); //정렬 전의 배열 출력
 
 	for (i = 0; i < MAX_ARRAY_SIZE; i++)
 	{
-		minindex = i;
+		minindex = i; 
 		min = a[i];
 		for(j = i+1; j < MAX_ARRAY_SIZE; j++)
 		{
-			if (min > a[j])
+			if (min > a[j]) //a[i]값이 a[j]값보다 크면
 			{
-				min = a[j];
-				minindex = j;
+				min = a[j]; //최솟값을 a[j] 로 바꾸고
+				minindex = j; //minindex를 j로 설정
 			}
 		}
-		a[minindex] = a[i];
-		a[i] = min;
+		a[minindex] = a[i]; //j번째 값에 a[i]값을 넣고
+		a[i] = min; //a[i]값에 min값을 넣는다
 	}
 
 	printf("----------------------------------------------------------------\n");
-	printArray(a);
-	return 0;
+	printArray(a); //정렬된 후의 배열 출력
+	return 0; //0리턴함으로서 함수 종료
 }
+
+/*
+삽입 정렬
+배열을 정렬 된부분, 정렬 안된부분을 집합으로 나누어
+정렬 안된 부분집합의 맨 앞 원소와 정렬된 부분집합 내에서 크기 비교를 한 후,
+정렬 된 부분의 위치에 삽입하는 정렬
+*/
 
 int insertionSort(int *a)
 {
@@ -199,25 +211,31 @@ int insertionSort(int *a)
 	printf("Insertion Sort: \n");
 	printf("----------------------------------------------------------------\n");
 
-	printArray(a);
+	printArray(a); //정렬 전의 배열 출력
 
 	for(i = 1; i < MAX_ARRAY_SIZE; i++)
 	{
-		t = a[i];
-		j = i;
-		while (a[j-1] > t && j > 0)
+		t = a[i]; //t값을 a[i]값으로 설정
+		j = i; //j값을 i값으로 설정
+		while (a[j-1] > t && j > 0) //a[j-1]값이 t보다 클경우 그리고 j가 0보다 클경우 반복문 실행
 		{
-			a[j] = a[j-1];
-			j--;
+			a[j] = a[j-1]; //a[j]값을 a[j-1]값으로 설정
+			j--; //j--
 		}
-		a[j] = t;
+		a[j] = t; //a[j]값을 t값으로 설정
 	}
 
 	printf("----------------------------------------------------------------\n");
-	printArray(a);
+	printArray(a); //정렬된 후의 배열 출력
 
-	return 0;
+	return 0; //0리턴함으로서 함수 종료
 }
+
+/*
+버블정렬
+배열의 앞 뒤값을 비교하여 값이 더 큰경우 뒤에 순서로 보내
+최댓값을 가장 뒤로 보내는 정렬방식
+*/
 
 int bubbleSort(int *a)
 {
@@ -226,28 +244,28 @@ int bubbleSort(int *a)
 	printf("Bubble Sort: \n");
 	printf("----------------------------------------------------------------\n");
 
-	printArray(a);
+	printArray(a); //정렬 전의 배열 출력
 
 	for(i = 0; i < MAX_ARRAY_SIZE; i++)
 	{
 		for (j = 0; j < MAX_ARRAY_SIZE; j++)
 		{
-			if (a[j-1] > a[j])
+			if (a[j-1] > a[j]) //a[j-1]의 값이 a[j]값보다 큰 경우
 			{
-				t = a[j-1];
-				a[j-1] = a[j];
-				a[j] = t;
+				t = a[j-1]; //t 값을 a[j-1]값으로 설정
+				a[j-1] = a[j]; //a[j-1]값을 a[j]값으로 설정
+				a[j] = t; //a[j]값을 t값으로 설정
 			}
 		}
 	}
 
 	printf("----------------------------------------------------------------\n");
-	printArray(a);
+	printArray(a); //정렬된 후의 배열 출력
 
 	return 0;
 }
 
-int shellSort(int *a)
+int shellSort(int *a) //셸 정렬
 {
 	int i, j, k, h, v;
 
@@ -279,7 +297,7 @@ int shellSort(int *a)
 	return 0;
 }
 
-int quickSort(int *a, int n)
+int quickSort(int *a, int n) //퀵 정렬
 {
 	int v, t;
 	int i, j;
